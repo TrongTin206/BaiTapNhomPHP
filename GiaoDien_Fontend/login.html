@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Vingroup HRMS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vin-red: #8B0000;
+            --vin-red-dark: #6a0000;
+        }
+        .bg-vin-red { background-color: var(--vin-red); }
+        .text-vin-red { color: var(--vin-red); }
+        .hover\:bg-vin-red-dark:hover { background-color: var(--vin-red-dark); }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen px-4" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200') center/cover no-repeat fixed;">
+
+    <!-- Login Card Container -->
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md border-t-8 border-vin-red p-8 relative overflow-hidden">
+        
+        <!-- Header / Brand Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-block bg-vin-red text-white px-3.5 py-1.5 font-black text-2xl rounded-lg tracking-wider mb-2 shadow">
+                VINGROUP
+            </div>
+            <h2 class="text-xl font-extrabold text-gray-800 tracking-wide uppercase">HỆ THỐNG QUẢN LÝ NHÂN SỰ</h2>
+            <p class="text-xs text-gray-500 font-medium">VinHR Enterprise Management Solution</p>
+        </div>
+
+        <!-- Alert Notification Box -->
+        <div id="alertMessage" class="hidden mb-5 p-3 rounded-lg text-xs font-semibold flex items-center space-x-2"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-5">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">
+                    <i class="fa-solid fa-user text-vin-red mr-1"></i> Tên Đăng Nhập / Email
+                </label>
+                <input type="text" id="username" required placeholder="Nhập tài khoản của bạn..." class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent focus:outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase mb-1.5">
+                    <i class="fa-solid fa-lock text-vin-red mr-1"></i> Mật Khẩu
+                </label>
+                <input type="password" id="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent focus:outline-none transition">
+            </div>
+
+            <div class="flex items-center justify-between text-xs">
+                <label class="flex items-center space-x-2 text-gray-600 cursor-pointer">
+                    <input type="checkbox" class="rounded text-vin-red focus:ring-vin-red">
+                    <span>Ghi nhớ đăng nhập</span>
+                </label>
+                <a href="#" class="text-vin-red font-bold hover:underline">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" id="btnLogin" class="w-full bg-vin-red hover:bg-vin-red-dark text-white py-3 rounded-lg font-bold text-sm shadow-md flex items-center justify-center space-x-2 transition">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>ĐĂNG NHẬP HỆ THỐNG</span>
+            </button>
+        </form>
+
+        <!-- Footer Info -->
+        <div class="mt-8 pt-4 border-t border-gray-100 text-center text-[11px] text-gray-400">
+            <p>© 2026 Vingroup Joint Stock Company. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Services JS -->
+    <script src="js/services/api.js"></script>
+    <script src="js/services/auth.service.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const btnLogin = document.getElementById('btnLogin');
+
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Đang xác thực...</span>`;
+
+            try {
+                if (typeof AuthService !== 'undefined' && AuthService.login) {
+                    await AuthService.login(username, password);
+                } else {
+                    showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                showAlert('Tài khoản hoặc mật khẩu không chính xác!', 'danger');
+                btnLogin.disabled = false;
+                btnLogin.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> <span>ĐĂNG NHẬP HỆ THỐNG</span>`;
+            }
+        });
+
+        function showAlert(msg, type) {
+            const alertBox = document.getElementById('alertMessage');
+            alertBox.innerText = msg;
+            alertBox.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+            if (type === 'success') {
+                alertBox.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                alertBox.classList.add('bg-red-100', 'text-red-800');
+            }
+        }
+    </script>
+</body>
+</html>
