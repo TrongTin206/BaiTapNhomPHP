@@ -1,0 +1,371 @@
+/* ==========================================================================
+   1. VARIABLES & RESET (VINGROUP BRANDING)
+   ========================================================================== */
+:root {
+  --primary: #8B0000;          /* Đỏ Vingroup đặc trưng */
+  --primary-dark: #700000;     /* Đỏ đậm Vingroup khi hover */
+  --navy: #8B0000;             /* Header tông đỏ Vingroup */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --red-light: #fff5f5;
+  --gold: #ffc107;             /* Màu vàng Gold Vingroup */
+}
+
+/* Sửa lỗi dấu '-' thành '*' ở đoạn Universal Selector */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Ẩn trang khi chưa kiểm tra xong Auth/Quyền */
+body[hidden] {
+  display: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ==========================================================================
+   2. HEADER & NAVIGATION
+   ========================================================================== */
+.header {
+  background: var(--navy);
+  color: white;
+  padding: 0 36px;
+  min-height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 8px rgba(139, 0, 0, 0.15);
+}
+
+.brand {
+  font-size: 21px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.brand span {
+  color: var(--gold);
+}
+
+#menu {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#menu a {
+  color: #f8fafc;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+#menu a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.logout-btn {
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  white-space: nowrap;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #ffffff;
+  color: var(--primary);
+  border-color: #ffffff;
+}
+
+/* ==========================================================================
+   3. MAIN CONTAINER
+   ========================================================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 38px 24px 60px;
+}
+
+.page-heading {
+  margin-bottom: 28px;
+}
+
+.page-heading h1 {
+  font-size: clamp(25px, 3vw, 34px);
+  margin: 0 0 12px;
+  line-height: 1.3;
+  color: #0f172a;
+}
+
+.page-heading h1 span {
+  color: var(--primary);
+}
+
+.page-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   4. WELCOME BANNER (VINGROUP GRADIENT)
+   ========================================================================== */
+.welcome-banner {
+  background: linear-gradient(120deg, #700000, #8B0000);
+  color: white;
+  padding: 32px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2);
+}
+
+.welcome-banner::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border: 45px solid rgba(255, 193, 7, 0.12); /* Nhấn họa tiết Gold */
+  border-radius: 50%;
+  right: -80px;
+  top: -100px;
+  pointer-events: none;
+}
+
+.welcome-banner h2 {
+  margin: 0 0 12px;
+  font-size: 23px;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-banner p {
+  margin: 0;
+  color: #fecdd3;
+  line-height: 1.7;
+  max-width: 650px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   5. SECTION
+   ========================================================================== */
+.section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 21px;
+  margin: 0 0 20px;
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   6. EMPLOYEE INFORMATION
+   ========================================================================== */
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.info-item {
+  min-width: 0;
+  padding: 4px 0;
+}
+
+.info-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.info-value {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+}
+
+.role-value {
+  display: inline-block;
+  background: var(--red-light);
+  color: var(--primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #fecdd3;
+}
+
+/* ==========================================================================
+   7. FUNCTION LIST
+   ========================================================================== */
+.feature-panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+#danh-sach-chuc-nang {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+#danh-sach-chuc-nang > * {
+  max-width: 100%;
+}
+
+#danh-sach-chuc-nang a,
+#danh-sach-chuc-nang button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 13px 18px;
+  background: var(--red-light);
+  color: var(--primary);
+  border: 1px solid #fecdd3;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+#danh-sach-chuc-nang a:hover,
+#danh-sach-chuc-nang button:hover {
+  background: #fecdd3;
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   8. FOOTER
+   ========================================================================== */
+.footer {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+  padding-top: 20px;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE - TABLET
+   ========================================================================== */
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    padding: 18px 24px;
+  }
+
+  #menu {
+    order: 3;
+    width: 100%;
+  }
+
+  .info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================================================
+   10. RESPONSIVE - MOBILE
+   ========================================================================== */
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 16px 40px;
+  }
+
+  .header {
+    padding: 16px;
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .logout-btn {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  .welcome-banner {
+    padding: 25px 20px;
+  }
+
+  .info-card,
+  .feature-panel {
+    padding: 20px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  #danh-sach-chuc-nang {
+    flex-direction: column;
+  }
+
+  #danh-sach-chuc-nang > * {
+    width: 100%;
+  }
+}

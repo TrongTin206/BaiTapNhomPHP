@@ -1,0 +1,268 @@
+/* ==========================================================================
+   1. RESET & BODY (VINGROUP BRANDING)
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ẩn trang khi chưa kiểm tra xong Auth/Quyền */
+body[hidden] {
+  display: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B0000;
+}
+
+/* ==========================================================================
+   2. LOGIN LAYOUT
+   ========================================================================== */
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. WELCOME SECTION (VINGROUP GRADIENT & BRANDING)
+   ========================================================================== */
+.welcome {
+  background: linear-gradient(145deg, #700000, #8B0000);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border: 55px solid rgba(255, 193, 7, 0.1); /* Điểm nhấn họa tiết Gold Vingroup */
+  border-radius: 50%;
+  right: -100px;
+  bottom: -100px;
+  pointer-events: none;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 65px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo span {
+  color: #ffc107; /* Vàng Gold Vingroup */
+}
+
+.welcome h1 {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.welcome p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #fecdd3;
+  max-width: 460px;
+}
+
+.features {
+  margin-top: 35px;
+  display: grid;
+  gap: 18px;
+  color: #ffe4e6;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   4. LOGIN SECTION
+   ========================================================================== */
+.login-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background-color: #f8fafc;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 42px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 15px 45px rgba(139, 0, 0, 0.06);
+}
+
+.login-card h2 {
+  font-size: 28px;
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   5. FORM
+   ========================================================================== */
+.form-group {
+  margin-bottom: 22px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 9px;
+  color: #334155;
+}
+
+input {
+  width: 100%;
+  padding: 14px 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+input:focus {
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   6. BUTTON (VINGROUP RED BUTTON)
+   ========================================================================== */
+button {
+  width: 100%;
+  padding: 15px;
+  background: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
+}
+
+button:hover {
+  background: #700000;
+  box-shadow: 0 6px 16px rgba(139, 0, 0, 0.3);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   7. NOTIFICATION
+   ========================================================================== */
+#thongbao {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 18px;
+  line-height: 1.5;
+  color: #475569;
+}
+
+#thongbao:not(:empty) {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+/* ==========================================================================
+   8. FOOTER
+   ========================================================================== */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 30px;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 850px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome {
+    padding: 35px 25px;
+  }
+
+  .welcome h1 {
+    font-size: 28px;
+  }
+
+  .welcome .logo {
+    margin-bottom: 20px;
+  }
+
+  .features {
+    display: none;
+  }
+
+  .login-section {
+    padding: 35px 20px;
+  }
+
+  .login-card {
+    padding: 30px 24px;
+  }
+}
