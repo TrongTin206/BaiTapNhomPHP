@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinHR - Hệ Thống Quản Lý Nhân Sự Tập Đoàn Vingroup</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .active-tab { border-bottom: 3px solid #8b0000; font-weight: bold; color: #8b0000; }
+        .sidebar-active { background-color: #fef2f2; color: #8b0000; font-weight: bold; border-right: 3px solid #8b0000; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-800">
+
+    <!-- HEADER DÙNG CHUNG CÓ BỘ CHUYỂN VAI TRÒ -->
+    <header class="bg-red-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="bg-white text-red-900 font-extrabold px-3 py-1 rounded text-lg tracking-wider">VINGROUP</span>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg uppercase">Hệ Thống Quản Lý Nhân Sự Tập Đoàn</h1>
+                    <p class="text-xs text-red-200">VinHR Enterprise Management Solution</p>
+                </div>
+            </div>
+
+            <!-- Role Switcher -->
+            <div class="flex items-center space-x-4 mt-2 md:mt-0">
+                <div class="flex items-center bg-red-950 px-3 py-1.5 rounded-lg border border-red-700">
+                    <i class="fa-solid fa-user-gear mr-2 text-yellow-400"></i>
+                    <span class="text-xs mr-2 text-gray-300">Vai trò:</span>
+                    <select id="roleSelector" onchange="switchRole(this.value)" class="bg-transparent text-sm font-semibold text-white outline-none cursor-pointer">
+                        <option value="admin" class="text-gray-900">1. Cấp Tập Đoàn (Vingroup Admin)</option>
+                        <option value="manager" class="text-gray-900" selected>2. Quản Lý Công Ty Con (HR Manager)</option>
+                        <option value="employee" class="text-gray-900">3. Nhân Viên (Employee Portal)</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2 border-l border-red-800 pl-4">
+                    <div id="userAvatar" class="w-8 h-8 rounded-full bg-yellow-500 text-red-950 font-bold flex items-center justify-center text-xs">TM</div>
+                    <div>
+                        <div id="userName" class="text-xs font-bold">Trần Thị Mai</div>
+                        <div id="userTitle" class="text-[10px] text-red-200">Trưởng Phòng HR VinFast</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+
+        <!-- ========================================== -->
+        <!-- CẤP 1: GIAO DIỆN CẤP TẬP ĐOÀN (ADMIN)      -->
+        <!-- ========================================== -->
+        <div id="view-admin" class="role-view hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">CÔNG TY CON</p>
+                        <h3 class="text-2xl font-bold text-gray-800">5</h3>
+                        <span class="text-xs text-green-600 font-medium">↑ +1 đơn vị trong năm</span>
+                    </div>
+                    <div class="w-12 h-12 bg-red-100 text-red-800 rounded-lg flex items-center justify-center text-xl"><i class="fa-solid fa-sitemap"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">TỔNG NHÂN SỰ</p>
+                        <h3 class="text-2xl font-bold text-gray-800">48,250</h3>
+                        <span class="text-xs text-blue-600 font-medium">+3.2% so với tháng trước</span>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 text-blue-800 rounded-lg flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">QUỸ LƯƠNG THÁNG</p>
+                        <h3 class="text-2xl font-bold text-gray-800">1,120 Tỷ</h3>
+                        <span class="text-xs text-gray-500">VNĐ / Toàn Tập đoàn</span>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-800 rounded-lg flex items-center justify-center text-xl"><i class="fa-solid fa-sack-dollar"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-500 font-semibold uppercase">BÁO CÁO CHỜ DUYỆT</p>
+                        <h3 class="text-2xl font-bold text-gray-800">3</h3>
+                        <span class="text-xs text-red-500 font-medium">Cần xử lý trong tuần</span>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 text-purple-800 rounded-lg flex items-center justify-center text-xl"><i class="fa-solid fa-file-signature"></i></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+                    <div>
+                        <h2 class="font-bold text-gray-800">Danh Sách Công Ty Member Vingroup</h2>
+                        <p class="text-xs text-gray-500">Quản lý pháp nhân, danh mục và cấu hình thuộc Tập đoàn</p>
+                    </div>
+                    <button class="bg-red-900 text-white text-xs px-3 py-2 rounded-lg font-semibold hover:bg-red-800 transition">+ Thêm Công Ty Con</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-gray-100 text-gray-600 font-bold uppercase border-b">
+                            <tr>
+                                <th class="p-3">MÃ ĐƠN VỊ</th>
+                                <th class="p-3">TÊN CÔNG TY CON</th>
+                                <th class="p-3">LĨNH VỰC HOẠT ĐỘNG</th>
+                                <th class="p-3">QUY MÔ NHÂN SỰ</th>
+                                <th class="p-3">GIÁM ĐỐC HR</th>
+                                <th class="p-3">TRẠNG THÁI</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-bold text-red-900">VINFAST</td><td class="p-3 font-semibold">VinFast Automotive</td><td class="p-3 text-gray-500">Sản xuất Ô tô & Xe điện</td><td class="p-3 font-bold">18,500 NV</td><td class="p-3">Lê Thị Thu Thủy</td><td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">Đang Hoạt Động</span></td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-bold text-red-900">VINHOMES</td><td class="p-3 font-semibold">Vinhomes Real Estate</td><td class="p-3 text-gray-500">Bất động sản & Đô thị</td><td class="p-3 font-bold">14,200 NV</td><td class="p-3">Nguyễn Văn B</td><td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">Đang Hoạt Động</span></td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-bold text-red-900">VINMEC</td><td class="p-3 font-semibold">VinMec Healthcare System</td><td class="p-3 text-gray-500">Y tế & Bệnh viện</td><td class="p-3 font-bold">6,500 NV</td><td class="p-3">Trần Văn C</td><td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">Đang Hoạt Động</span></td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-bold text-red-900">VINSCHOOL</td><td class="p-3 font-semibold">VinSchool Education</td><td class="p-3 text-gray-500">Giáo dục liên cấp</td><td class="p-3 font-bold">4,800 NV</td><td class="p-3">Phạm Thị D</td><td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">Đang Hoạt Động</span></td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-bold text-red-900">VINPEARL</td><td class="p-3 font-semibold">Vinpearl Hospitality</td><td class="p-3 text-gray-500">Du lịch & Nghỉ dưỡng</td><td class="p-3 font-bold">4,250 NV</td><td class="p-3">Hoàng Văn E</td><td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-semibold">Đang Hoạt Động</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CẤP 2: QUẢN LÝ CÔNG TY CON (HR MANAGER)    -->
+        <!-- ========================================== -->
+        <div id="view-manager" class="role-view space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Sidebar Trái: Danh mục quản lý -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div class="p-3 bg-gray-50 border-b text-xs font-bold text-gray-500 uppercase">DANH MỤC QUẢN LÝ</div>
+                        <div class="divide-y text-xs">
+                            <button onclick="switchManagerTab('profile')" id="mSide-profile" class="w-full text-left p-3 flex items-center space-x-2 sidebar-active"><i class="fa-solid fa-address-card"></i> <span>Hồ Sơ Nhân Sự</span></button>
+                            <button onclick="switchManagerTab('approve')" id="mSide-approve" class="w-full text-left p-3 flex items-center space-x-2 text-gray-600 hover:bg-gray-50"><i class="fa-solid fa-calendar-check"></i> <span>Duyệt Đơn Hằng Ngày</span></button>
+                            <button onclick="switchManagerTab('payroll')" id="mSide-payroll" class="w-full text-left p-3 flex items-center space-x-2 text-gray-600 hover:bg-gray-50"><i class="fa-solid fa-file-invoice-dollar"></i> <span>Bảng Lương & Báo Cáo</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Khối ĐANG XEM CÔNG TY -->
+                    <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                        <label class="block text-xs font-bold text-red-900 mb-2 uppercase"><i class="fa-solid fa-building mr-1"></i> ĐANG XEM CÔNG TY:</label>
+                        <select id="companySelector" onchange="changeCompany(this.value)" class="w-full bg-white border border-red-300 rounded-lg p-2 text-xs font-bold text-gray-800 outline-none">
+                            <option value="VinFast Automotive" selected>VinFast Automotive</option>
+                            <option value="Vinhomes Real Estate">Vinhomes Real Estate</option>
+                            <option value="VinMec Healthcare System">VinMec Healthcare System</option>
+                            <option value="VinSchool Education">VinSchool Education</option>
+                            <option value="Vinpearl Hospitality">Vinpearl Hospitality</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Nội dung chính bên phải -->
+                <div class="md:col-span-3 space-y-4">
+                    <!-- Banner công ty -->
+                    <div class="bg-slate-900 text-white p-4 rounded-xl flex justify-between items-center">
+                        <div>
+                            <span class="bg-amber-500 text-slate-950 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">Đơn Vị Thành Viên</span>
+                            <h2 id="currentCompTitle" class="text-xl font-bold mt-1">VinFast Automotive</h2>
+                            <p id="currentCompDesc" class="text-xs text-slate-400">Hệ thống Quản lý Nhân sự & Duyệt Yêu cầu - Lĩnh vực Sản xuất Ô tô & Xe điện</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400">Tổng Nhân Viên</span>
+                            <div id="currentCompCount" class="text-2xl font-black text-amber-400">18,500</div>
+                        </div>
+                    </div>
+
+                    <!-- Card Nội Dung Tabs -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                        <div class="border-b px-4 flex space-x-6 text-sm font-semibold">
+                            <button onclick="switchManagerTab('profile')" id="mTab-profile" class="py-3 active-tab">Hồ Sơ Nhân Sự</button>
+                            <button onclick="switchManagerTab('approve')" id="mTab-approve" class="py-3 text-gray-500 hover:text-red-900">Duyệt Đơn Hằng Ngày <span id="pendingBadge" class="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded-full ml-1">2</span></button>
+                            <button onclick="switchManagerTab('payroll')" id="mTab-payroll" class="py-3 text-gray-500 hover:text-red-900">Quản Lý Lương & Báo Cáo</button>
+                        </div>
+
+                        <div class="p-4">
+                            <!-- TAB 1: HỒ SƠ NHÂN SỰ -->
+                            <div id="mSection-profile" class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-2">
+                                        <input type="text" placeholder="Tìm theo tên, mã NV..." class="border px-3 py-1.5 rounded-lg text-xs w-64 outline-none">
+                                        <select class="border px-2 py-1.5 rounded-lg text-xs text-gray-600 bg-white"><option>Tất cả phòng ban</option></select>
+                                    </div>
+                                    <button class="bg-red-900 text-white text-xs px-3 py-2 rounded-lg font-semibold hover:bg-red-800 transition">+ Thêm Nhân Viên Mới</button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="bg-gray-100 text-gray-600 font-bold uppercase border-b">
+                                            <tr><th class="p-3">MÃ NV</th><th class="p-3">HỌ VÀ TÊN</th><th class="p-3">CHỨC VỤ</th><th class="p-3">PHÒNG BAN</th><th class="p-3">NGÀY VÀO LÀM</th><th class="p-3">TRẠNG THÁI</th><th class="p-3">THAO TÁC</th></tr>
+                                        </thead>
+                                        <tbody id="empTableBody" class="divide-y">
+                                            <!-- Dynamic Render -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- TAB 2: DUYỆT ĐƠN HẰNG NGÀY (Ảnh 2 của bạn) -->
+                            <div id="mSection-approve" class="hidden space-y-4">
+                                <div class="flex justify-between items-center border-b pb-2">
+                                    <h3 class="font-bold text-xs text-gray-700">Danh Sách Yêu Cầu Xin Nghỉ / Điều Chỉnh Công Từ Nhân Viên</h3>
+                                    <select class="border text-xs px-2 py-1 rounded bg-white"><option>Chờ duyệt (Pending)</option></select>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="bg-gray-100 text-gray-600 font-bold uppercase border-b">
+                                            <tr><th class="p-2">MÃ ĐƠN</th><th class="p-2">NHÂN VIÊN</th><th class="p-2">LOẠI YÊU CẦU</th><th class="p-2">LÝ DO / NỘI DUNG</th><th class="p-2">NGÀY GỬI</th><th class="p-2">TRẠNG THÁI</th><th class="p-2">QUYẾT ĐỊNH</th></tr>
+                                        </thead>
+                                        <tbody id="approvalTableBody" class="divide-y">
+                                            <!-- Dynamic Render -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- TAB 3: QUẢN LÝ LƯƠNG & BÁO CÁO (Ảnh 1 của bạn) -->
+                            <div id="mSection-payroll" class="hidden space-y-6">
+                                <!-- Bảng Lương Dự Thảo -->
+                                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <div>
+                                            <h3 class="font-bold text-sm text-amber-900"><i class="fa-solid fa-calculator mr-1"></i> Bảng Lương Dự Thảo Tháng 10/2026</h3>
+                                            <p class="text-[11px] text-amber-700">Tổng cộng: 156 Nhân viên trong danh sách | Tổng chi trả: 3.82 Tỷ VNĐ</p>
+                                        </div>
+                                        <button onclick="alert('Đã chốt bảng lương tháng 10/2026 thành công!')" class="bg-green-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg hover:bg-green-700">✔ Chốt Bảng Lương</button>
+                                    </div>
+                                    <div class="bg-white rounded-lg border overflow-x-auto">
+                                        <table class="w-full text-left text-[11px]">
+                                            <thead class="bg-gray-50 border-b text-gray-600 font-bold uppercase">
+                                                <tr><th class="p-2">MÃ NV</th><th class="p-2">HỌ TÊN</th><th class="p-2">LƯƠNG CƠ BẢN</th><th class="p-2">PHỤ CẤP</th><th class="p-2">THƯỞNG / TĂNG CA</th><th class="p-2">KHẤU TRỪ BHXH</th><th class="p-2">THỰC NHẬN</th><th class="p-2">TRẠNG THÁI</th></tr>
+                                            </thead>
+                                            <tbody class="divide-y">
+                                                <tr><td class="p-2 font-bold text-red-900">VF-8821</td><td class="p-2 font-semibold">Nguyễn Văn An</td><td class="p-2">22,000,000 đ</td><td class="p-2">2,500,000 đ</td><td class="p-2 text-green-600">+ 3,500,000 đ</td><td class="p-2 text-red-600">- 2,310,000 đ</td><td class="p-2 font-bold text-red-900">25,690,000 đ</td><td class="p-2"><span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-medium">Dự Thảo</span></td></tr>
+                                                <tr><td class="p-2 font-bold text-red-900">VF-8822</td><td class="p-2 font-semibold">Lê Minh Hương</td><td class="p-2">22,000,000 đ</td><td class="p-2">2,500,000 đ</td><td class="p-2 text-green-600">+ 3,500,000 đ</td><td class="p-2 text-red-600">- 2,310,000 đ</td><td class="p-2 font-bold text-red-900">25,690,000 đ</td><td class="p-2"><span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-medium">Dự Thảo</span></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Form Gửi Báo Cáo Định Kỳ Lên Tập Đoàn (Ảnh 1 của bạn) -->
+                                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                                    <h3 class="font-bold text-sm text-gray-800 flex items-center"><i class="fa-solid fa-paper-plane text-red-900 mr-2"></i> Gửi Báo Cáo Định Kỳ Lên Tập Đoàn Vingroup</h3>
+                                    <p class="text-xs text-gray-500">Gửi báo cáo biến động nhân sự & quỹ lương hàng tháng để Ban Quản Lý Tập Đoàn phê duyệt.</p>
+                                    
+                                    <form onsubmit="handleSendReport(event)" class="space-y-3 text-xs">
+                                        <div>
+                                            <label class="block font-semibold text-gray-700 mb-1">Tiêu Đề Báo Cáo</label>
+                                            <input type="text" id="repTitle" value="Báo cáo tình hình nhân sự & chi phí lương Tháng 10/2026" class="w-full border p-2 rounded-lg bg-white outline-none" required>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block font-semibold text-gray-700 mb-1">Kỳ Báo Cáo</label>
+                                                <input type="text" value="Tháng 10/2026" class="w-full border p-2 rounded-lg bg-white outline-none">
+                                            </div>
+                                            <div>
+                                                <label class="block font-semibold text-gray-700 mb-1">Loại Báo Cáo</label>
+                                                <select class="w-full border p-2 rounded-lg bg-white outline-none">
+                                                    <option>Báo cáo nhân sự định kỳ</option>
+                                                    <option>Báo cáo đột xuất</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block font-semibold text-gray-700 mb-1">Tóm Tắt Nội Dung</label>
+                                            <textarea rows="3" placeholder="Nhập ghi chú hoặc tóm tắt gửi Ban Quản Lý Tập Đoàn..." class="w-full border p-2 rounded-lg bg-white outline-none"></textarea>
+                                        </div>
+                                        <button type="submit" class="bg-red-900 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-800 transition">Gửi Báo Cáo Lên Tập Đoàn</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CẤP 3: CỔNG THÔNG TIN NHÂN VIÊN            -->
+        <!-- ========================================== -->
+        <div id="view-employee" class="role-view hidden space-y-6">
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 flex flex-wrap justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-sky-600 text-white font-black text-2xl rounded-xl flex items-center justify-center">NA</div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h2 class="text-xl font-bold text-gray-800">Nguyễn Văn An</h2>
+                            <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Chính thức</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-0.5">Kỹ Sư Phần Mềm Senior • Phòng R&D</p>
+                        <div class="flex space-x-4 text-xs text-gray-600 mt-2">
+                            <span><i class="fa-solid fa-id-card text-red-900 mr-1"></i> Mã NV: <strong>VF-8821</strong></span>
+                            <span><i class="fa-solid fa-building text-red-900 mr-1"></i> Đơn vị: <strong>VinFast Automotive</strong></span>
+                            <span><i class="fa-solid fa-envelope text-red-900 mr-1"></i> an.nv@vinfast.vn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT XỬ LÝ DỮ LIỆU ĐỘNG & CHUYỂN CÔNG TY -->
+    <script>
+        // Data Mock cho từng Công Ty
+        const companyData = {
+            "VinFast Automotive": {
+                desc: "Hệ thống Quản lý Nhân sự & Duyệt Yêu cầu - Lĩnh vực Sản xuất Ô tô & Xe điện",
+                count: "18,500",
+                employees: [
+                    { id: "VF-8821", name: "Nguyễn Văn An", title: "Kỹ Sư Phần Mềm Senior", dept: "Phòng R&D", date: "12/03/2022" },
+                    { id: "VF-8822", name: "Lê Minh Hương", title: "Chuyên Viên QC", dept: "Khối Sản Xuất", date: "01/06/2023" }
+                ],
+                approvals: [
+                    { id: "REQ-1001", name: "Nguyễn Văn An (VF-8821)", type: "Xin Nghỉ Phép", reason: "Nghỉ phép cá nhân giải quyết công việc gia đình", date: "28/10/2026" },
+                    { id: "REQ-1002", name: "Lê Minh Hương (VF-8822)", type: "Giải Trình Chấm Công", reason: "Quên quẹt thẻ chiều ra do họp khẩn", date: "29/10/2026" }
+                ]
+            },
+            "VinSchool Education": {
+                desc: "Hệ thống Quản lý Nhân sự & Duyệt Yêu cầu - Lĩnh vực Giáo dục liên cấp",
+                count: "4,800",
+                employees: [
+                    { id: "VS-101", name: "Trần Thị Mai", title: "Giáo Viên Toán Senior", dept: "Khối Trung Học", date: "05/09/2021" }
+                ],
+                approvals: [] // Không có đơn => Hiển thị trống đúng ảnh 2 của bạn
+            }
+        };
+
+        // Switch Role (1. Admin, 2. Manager, 3. Employee)
+        function switchRole(role) {
+            document.querySelectorAll('.role-view').forEach(el => el.classList.add('hidden'));
+            
+            const avatar = document.getElementById('userAvatar');
+            const name = document.getElementById('userName');
+            const title = document.getElementById('userTitle');
+
+            if (role === 'admin') {
+                document.getElementById('view-admin').classList.remove('hidden');
+                avatar.innerText = 'PV'; name.innerText = 'Phạm Nhật Vượng'; title.innerText = 'Chủ Tịch Tập Đoàn Vingroup';
+            } else if (role === 'manager') {
+                document.getElementById('view-manager').classList.remove('hidden');
+                avatar.innerText = 'TM'; name.innerText = 'Trần Thị Mai'; title.innerText = 'Trưởng Phòng HR VinFast';
+                renderCompanyData(document.getElementById('companySelector').value);
+            } else {
+                document.getElementById('view-employee').classList.remove('hidden');
+                avatar.innerText = 'NA'; name.innerText = 'Nguyễn Văn An'; title.innerText = 'Kỹ Sư Senior • VinFast';
+            }
+        }
+
+        // Đổi Công Ty Thành Viên (Render lại dữ liệu chuẩn Ảnh 1 & 2)
+        function changeCompany(compName) {
+            renderCompanyData(compName);
+        }
+
+        function renderCompanyData(compName) {
+            const data = companyData[compName] || {
+                desc: "Hệ thống Quản lý Nhân sự & Duyệt Yêu cầu",
+                count: "5,000",
+                employees: [],
+                approvals: []
+            };
+
+            document.getElementById('currentCompTitle').innerText = compName;
+            document.getElementById('currentCompDesc').innerText = data.desc;
+            document.getElementById('currentCompCount').innerText = data.count;
+
+            // Render Employees
+            const empTbody = document.getElementById('empTableBody');
+            if(data.employees.length === 0) {
+                empTbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-400">Không có dữ liệu nhân viên</td></tr>`;
+            } else {
+                empTbody.innerHTML = data.employees.map(emp => `
+                    <tr>
+                        <td class="p-3 font-bold text-red-900">${emp.id}</td>
+                        <td class="p-3 font-bold">${emp.name}</td>
+                        <td class="p-3 text-gray-600">${emp.title}</td>
+                        <td class="p-3"><span class="bg-gray-100 px-2 py-0.5 rounded">${emp.dept}</span></td>
+                        <td class="p-3 text-gray-500">${emp.date}</td>
+                        <td class="p-3"><span class="text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded">Chính thức</span></td>
+                        <td class="p-3"><button class="border px-2 py-1 rounded text-gray-600 hover:bg-gray-100">Điều chuyển</button></td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Approvals (Tự động chuyển giữa có đơn và "Không có đơn yêu cầu nào cần xử lý" như Ảnh 2)
+            const appTbody = document.getElementById('approvalTableBody');
+            const badge = document.getElementById('pendingBadge');
+            badge.innerText = data.approvals.length;
+
+            if(data.approvals.length === 0) {
+                appTbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-8 text-center text-gray-400 italic">
+                            Không có đơn yêu cầu nào cần xử lý
+                        </td>
+                    </tr>
+                `;
+            } else {
+                appTbody.innerHTML = data.approvals.map(app => `
+                    <tr>
+                        <td class="p-2 font-bold text-gray-700">${app.id}</td>
+                        <td class="p-2 font-bold">${app.name}</td>
+                        <td class="p-2 text-red-900 font-medium">${app.type}</td>
+                        <td class="p-2 text-gray-600">${app.reason}</td>
+                        <td class="p-2 text-gray-500">${app.date}</td>
+                        <td class="p-2"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-semibold">Chờ Duyệt</span></td>
+                        <td class="p-2 space-x-1">
+                            <button onclick="this.closest('tr').remove()" class="bg-green-600 text-white font-bold px-2 py-1 rounded hover:bg-green-700">Duyệt</button>
+                            <button onclick="this.closest('tr').remove()" class="bg-red-600 text-white font-bold px-2 py-1 rounded hover:bg-red-700">Từ Chối</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Chuyển Tab Quản lý của HR Manager
+        function switchManagerTab(tabName) {
+            ['profile', 'approve', 'payroll'].forEach(t => {
+                document.getElementById(`mSection-${t}`).classList.add('hidden');
+                document.getElementById(`mTab-${t}`).classList.remove('active-tab');
+                document.getElementById(`mTab-${t}`).classList.add('text-gray-500');
+                document.getElementById(`mSide-${t}`).classList.remove('sidebar-active');
+            });
+
+            document.getElementById(`mSection-${tabName}`).classList.remove('hidden');
+            document.getElementById(`mTab-${tabName}`).classList.add('active-tab');
+            document.getElementById(`mTab-${tabName}`).classList.remove('text-gray-500');
+            document.getElementById(`mSide-${tabName}`).classList.add('sidebar-active');
+        }
+
+        function handleSendReport(e) {
+            e.preventDefault();
+            alert('Đã gửi báo cáo thành công lên Ban Quản Lý Tập Đoàn Vingroup!');
+        }
+
+        // Khởi tạo mặc định
+        renderCompanyData("VinFast Automotive");
+    </script>
+</body>
+</html>
